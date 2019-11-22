@@ -88,20 +88,23 @@ class ReceiptsController extends Controller
         $row_count = 0;
         foreach ($receipts as $receipt) {
             $rece = Receipt::find($receipt['id']);
-            if ($request->filled('description')){
-                $rece->description = $receipt['description'];
+            if (isset($receipt['description'])){
+                $rece['description'] = $receipt['description'];
             }
-            if ($request->filled('remarks')) {
+            if (isset($receipt['remarks'])) {
                 $rece->remarks = $receipt['remarks'];
             }
-            if ($request->filled('receipt_type_id')) {
+            if (isset($receipt['receipt_type_id'])) {
                 $rece->receipt_type_id = $receipt['receipt_type_id'];
             }
-            if ($request->filled('user_id')) {
+            if (isset($receipt['user_id'])) {
                 $rece->user_id = $receipt['user_id'];
             }
-            if ($request->filled('vendor_id')) {
+            if (isset($receipt['vendor_id'])) {
                 $rece->vendor_id = $receipt['vendor_id'];
+            }
+            if (isset($receipt['expense'])) {
+                $rece->expense = $receipt['expense'];
             }
             $rece->save();
             $row_count++;

@@ -19,3 +19,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/receipt', 'WEB\ReceiptsController@index')->name('receipt.index');
+Route::get('/receipt/{receipt_id}', 'WEB\ReceiptsController@show')->name('receipt.show');
+Route::get('/receipt/dd/dd', function() {
+   dd(app("App\Http\Controllers\API\ReceiptsController")->show(1));
+});
