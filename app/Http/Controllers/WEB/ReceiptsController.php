@@ -9,6 +9,11 @@ use App;
 class ReceiptsController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(){
         $receipts = app("App\Http\Controllers\API\ReceiptsController")->index();
         $receipt_type_name = array();
