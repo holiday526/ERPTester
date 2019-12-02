@@ -37,4 +37,32 @@ class ReceiptsController extends Controller
             ['receipt'=>$receipt, 'total_value'=>$total_value]
         );
     }
+
+    public function delete($delete_id){
+        $receipt = app("App\Http\Controllers\API\ReceiptsController")->destroy($delete_id);
+        $receipts = app("App\Http\Controllers\API\ReceiptsController")->index();
+        $receipt_type_name = array();
+        foreach (App\ReceiptType::all() as $receiptType) {
+            $receipt_type_name[$receiptType['id']] = $receiptType['description'];
+        }
+        return view(
+            'layout.receipt.index',
+            ['receipts'=>$receipts, 'receipt_type_name'=>$receipt_type_name]
+        );
+    }
+
+    public function create(){
+        $types = array();
+        foreach (App\ReceiptType::all() as $receiptType) {
+            $types[$receiptType['id']] = $receiptType['description'];
+        }
+
+        $vendors = array();
+        foreach (App\Vendor::all() as $vendor) {
+            $vendors[$vendor['id']] = $vendor['name'];
+        }
+        return view('layout.receipt.create',
+            ['types'=>$types, 'vendors'=>$vendors]);
+    }
+
 }

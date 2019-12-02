@@ -91,4 +91,38 @@ class VendorsController extends Controller
             response(['content'=> 'no'], Config::get('constants.status.noContent')) :
             response(['content not found'], Config::get('constants.status.notFound'));
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateFromWeb(Request $request)
+    {
+        //
+        $vendor = Vendor::find($request['id']);
+        $vendor->name = $request->name;
+        $vendor->save();
+        return redirect('/vendors');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response(['status' => 'fail'], Config::get('constants.status.badRequest'));
+        }
+        $vendor = Vendor::firstOrCreate(['name' => $request->name]);
+        return redirect('/vendors');
+    }
 }

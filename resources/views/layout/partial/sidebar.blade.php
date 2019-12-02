@@ -24,6 +24,17 @@
             <i class="fas fa-fw fa-money-bill"></i>
             <span>Receipt</span></a>
     </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/type">
+            <i class="fas fa-fw fa-archive"></i>
+            <span>Receipt Type</span></a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" href="/vendors">
+            <i class="fas fa-fw fa-address-book"></i>
+            <span>Vendors</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">

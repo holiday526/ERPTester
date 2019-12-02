@@ -112,4 +112,21 @@ class ReceiptItemsController extends Controller
             response(['content'=> 'no'], Config::get('constants.status.noContent')) :
             response(['content not found'], Config::get('constants.status.notFound'));
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addItemToRequest(Request $request)
+    {
+        $receipt_items = $request->json()->get(self::RECEIPT_ITEMS_TAG);
+        $post = new ReceiptItem();
+        $post->receipt_id = $request->input('receipt_id');
+        $post->description = $request->input('description');
+        $post->data = $request->input('price');
+        $post->save();
+        return redirect('/receipt/'.$request['receipt_id']);
+    }
 }

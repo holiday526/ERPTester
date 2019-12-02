@@ -88,4 +88,39 @@ class ReceiptTypesController extends Controller
             response(['content'=> 'no'], Config::get('constants.status.noContent')) :
             response(['content not found'], Config::get('constants.status.notFound'));
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateFromWeb(Request $request)
+    {
+        //
+        $receipt_type = ReceiptType::find($request['id']);
+        $receipt_type->description = $request->description;
+        $receipt_type->save();
+        return redirect('/type');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createType(Request $request)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'description' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response(['status' => 'fail'], Config::get('constants.status.badRequest'));
+        }
+        $receipt_type = ReceiptType::firstOrCreate(['description' => $request->description]);
+        return redirect('/type');
+    }
 }

@@ -130,4 +130,32 @@ class ReceiptsController extends Controller
             response(['content'=> 'no'], Config::get('constants.status.noContent')) :
             response(['content not found'], Config::get('constants.status.notFound'));
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createReceipt(Request $request)
+    {
+        $user = app("App\Http\Controllers\API\UserController")->details();
+        $s_user = explode("{", (string)$user);
+        $c_user = "{".$s_user[1]."{".$s_user[2];
+        $c_user = explode(":", (string)$c_user);
+        $id =  str_replace($c_user[1][0], "", str_replace(',"name"', "", $c_user[2]));
+        #get user name
+
+        $receipts = new Receipt();
+        $receipts->user_id = $id;
+        $receipts->description = $request->description;
+        $receipts->remarks = $request->remarks;
+        $receipts->receipt_type_id = $request->receipt_type_id;
+        $receipts->receipt_date = $request->receipt_date;
+        $receipts->vendor_id = $request->vendor;
+        $receipts->save();
+        $last = Receipt::all();
+        $lastest = $last[sizeof($last)-1];
+        return redirect('/receipt/'.$lastest['id']);
+    }
 }
